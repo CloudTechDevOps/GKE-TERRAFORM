@@ -84,7 +84,14 @@ After Terraform completes, connect to the bastion VM from the GCP Console or wit
 
 ## 6. Configure gcloud on Bastion
 
-On the bastion VM, verify the tools:
+On the bastion VM, verify the tools: and installl 
+```
+apt update -y
+sudo apt install -y google-cloud-cli
+sudo apt install -y google-cloud-sdk-gke-gcloud-auth-plugin
+sudo apt install git -y
+sudo apt-get install kubectl
+```
 
 ```bash
 gcloud --version
