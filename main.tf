@@ -78,14 +78,6 @@ resource "google_compute_instance" "bastion" {
     access_config {}
   }
 
-  metadata_startup_script = <<EOF
-#!/bin/bash
-apt update
-sudo apt install -y google-cloud-cli kubectl
-sudo apt install -y google-cloud-sdk-gke-gcloud-auth-plugin
-sudo apt install git -y
-sudo apt-get install kubectl
-EOF
 }
 
 
