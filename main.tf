@@ -81,11 +81,43 @@ resource "google_compute_instance" "bastion" {
   metadata_startup_script = <<EOF
 #!/bin/bash
 apt update
-apt install -y google-cloud-cli kubectl
+sudo apt install -y google-cloud-cli kubectl
 sudo apt install -y google-cloud-sdk-gke-gcloud-auth-plugin
 sudo apt install git -y
 sudo apt-get install kubectl
 EOF
+}
+
+
+
+#####################################################
+resource "google_container_cluster" "gke" {
+
+  name     = "veera"
+  location = var.zone
+
+  deletion_protection = false
+
+  network    = google_compute_network.vpc.id
+  subnetwork = google_compute_subnetwork.subnet.id
+
+  remove_default_node_pool = true
+  initial_node_count       = 2
+
+  networking_mode = "VPC_NATIVE"
+
+  ip_allocation_policy {
+    cluster_secondary_range_name  = "pods"
+    services_secondary_range_name = "services"
+  }
+
+  private_cluster_config {
+
+    enable_private_nodes    = true
+    enable_private_endpoint = false
+
+    master_ipv4_cidr_block = "172.16.0.0/28"
+  }
 }
 
 # ############################################################
@@ -114,36 +146,5 @@ resource "google_container_node_pool" "primary_nodes" {
   management {
     auto_repair  = true
     auto_upgrade = true
-  }
-}
-
-
-
-resource "google_container_cluster" "gke" {
-
-  name     = "private-gke"
-  location = var.zone
-
-  deletion_protection = false
-
-  network    = google_compute_network.vpc.id
-  subnetwork = google_compute_subnetwork.subnet.id
-
-  remove_default_node_pool = true
-  initial_node_count       = 2
-
-  networking_mode = "VPC_NATIVE"
-
-  ip_allocation_policy {
-    cluster_secondary_range_name  = "pods"
-    services_secondary_range_name = "services"
-  }
-
-  private_cluster_config {
-
-    enable_private_nodes    = true
-    enable_private_endpoint = false
-
-    master_ipv4_cidr_block = "172.16.0.0/28"
   }
 }
