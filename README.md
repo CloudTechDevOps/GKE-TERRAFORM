@@ -31,6 +31,10 @@ Create application default credentials for Terraform:
 gcloud auth application-default login
 ```
 
+```
+gcloud auth application-default set-quota-project playground-s-11-31789655
+```
+
 ## 2. Enable Required GCP APIs
 
 Run these commands once for your project:
