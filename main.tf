@@ -140,3 +140,12 @@ resource "google_container_node_pool" "primary_nodes" {
     auto_upgrade = true
   }
 }
+
+
+
+resource "google_artifact_registry_repository" "my_repo" {
+  location      = var.region
+  repository_id = "fullstack"
+  description   = "Docker repository created using Terraform"
+  format        = "DOCKER"
+}
