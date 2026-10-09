@@ -93,6 +93,7 @@ On the bastion VM, verify the tools: and installl
 apt update -y
 sudo apt install -y google-cloud-cli
 sudo apt install -y google-cloud-sdk-gke-gcloud-auth-plugin
+sudo apt-get install -y google-cloud-cli-gke-gcloud-auth-plugin
 sudo apt install git -y
 sudo apt-get install kubectl
 ```
